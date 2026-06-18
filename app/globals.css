@@ -1,0 +1,356 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ════════════════════════════════════════════════════════════════════════
+   BREATH+ — "Living Atmosphere" design language.
+   Fresh air · forest greens · river teals · open sky · golden sunlight ·
+   grounded earth · a premium violet accent. Inspired by a deep breath of
+   mountain air. Fonts come from next/font (app/layout.tsx).
+
+   Family names kept (sage/sand/clay/apricot/haze) so components map cleanly;
+   values are the nature system. clay = the earthy danger/error red.
+   ════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Sand — earth & air neutrals (morning-mist → bark) */
+  --color-sand-50: #fbf9f3;
+  /* morning-mist */
+  --color-sand-100: #f1ede1;
+  /* linen-air */
+  --color-sand-200: #e5dbc7;
+  /* warm-oat */
+  --color-sand-300: #d6c9b0;
+  --color-sand-400: #c2b295;
+  --color-sand-500: #b0a189;
+  /* soft-stone */
+  --color-sand-600: #8a7b63;
+  --color-sand-700: #645845;
+  --color-sand-800: #4a4234;
+  --color-sand-900: #3c352b;
+  /* bark */
+
+  /* Sage — forest greens, the living primary (dawn-sage → deep-pine) */
+  --color-sage-50: #f2f6ef;
+  --color-sage-100: #e4e9dc;
+  /* dawn-sage */
+  --color-sage-200: #cddbc4;
+  --color-sage-300: #b9cfaf;
+  /* sage-mist */
+  --color-sage-400: #97bf8c;
+  --color-sage-500: #79a971;
+  /* fresh-fern */
+  --color-sage-600: #5e8c56;
+  --color-sage-700: #41703f;
+  --color-sage-800: #284e3c;
+  /* deep-pine */
+  --color-sage-900: #1e3b2d;
+
+  /* Teal — river: cool, clear, calm (aqua-mist → deep-lagoon) */
+  --color-teal-50: #effaf6;
+  --color-teal-100: #c7e4dd;
+  /* aqua-mist */
+  --color-teal-200: #a4d6cc;
+  --color-teal-300: #7cc3b8;
+  --color-teal-400: #4e9b92;
+  /* clear-teal */
+  --color-teal-500: #3a8a82;
+  --color-teal-600: #236862;
+  /* deep-lagoon */
+  --color-teal-700: #1d524e;
+  --color-teal-800: #18403d;
+  --color-teal-900: #133230;
+
+  /* Sky — open & hopeful (sky-breath → horizon) */
+  --color-sky-50: #f0f6fa;
+  --color-sky-100: #cee1eb;
+  /* sky-breath */
+  --color-sky-200: #aecedd;
+  --color-sky-300: #81b3cc;
+  /* open-sky */
+  --color-sky-400: #6aa1bd;
+  --color-sky-500: #4e87a6;
+  /* horizon */
+  --color-sky-600: #3f6e89;
+  --color-sky-700: #34596f;
+  --color-sky-800: #2b4858;
+  --color-sky-900: #243a47;
+
+  /* Apricot — sunlight gold (soft-dawn → amber-glow) */
+  --color-apricot-50: #fdf9ec;
+  --color-apricot-100: #f6e8bd;
+  /* soft-dawn */
+  --color-apricot-200: #efd89a;
+  --color-apricot-300: #e9cb78;
+  --color-apricot-400: #e7c566;
+  /* golden-hour */
+  --color-apricot-500: #d2a642;
+  /* amber-glow */
+  --color-apricot-600: #b68a34;
+  --color-apricot-700: #8e6b29;
+  --color-apricot-800: #6e5320;
+  --color-apricot-900: #59431a;
+
+  /* Haze — premium violet accent (lavender → deep-violet) */
+  --color-haze-50: #f4f1fe;
+  --color-haze-100: #ebe4fd;
+  --color-haze-200: #ded2fc;
+  --color-haze-300: #c4b5fd;
+  /* lavender */
+  --color-haze-400: #a78bfa;
+  /* orchid */
+  --color-haze-500: #8b5cf6;
+  --color-haze-600: #7c3aed;
+  /* royal-purple */
+  --color-haze-700: #6d28d9;
+  --color-haze-800: #5b21b6;
+  /* deep-violet */
+  --color-haze-900: #4c1d95;
+
+  /* Clay — earthy danger / error red (kept for status; not a brand color) */
+  --color-clay-50: #fbf0ec;
+  --color-clay-100: #f6ddd3;
+  --color-clay-200: #edbba8;
+  --color-clay-300: #e29b82;
+  --color-clay-400: #d67a5c;
+  --color-clay-500: #c65a3b;
+  --color-clay-600: #a8472c;
+  --color-clay-700: #8b3a26;
+  --color-clay-800: #6e3122;
+  --color-clay-900: #5b2a20;
+
+  /* Typography — from next/font (app/layout.tsx) */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Radii */
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-4xl: 2.5rem;
+
+  /* Motion */
+  --ease-breath: cubic-bezier(0.37, 0, 0.32, 1);
+  --ease-out-soft: cubic-bezier(0.21, 0.5, 0.3, 1);
+}
+
+/* ── Semantic surface tokens — Light ("fresh morning") ─────────────────── */
+:root {
+  --background: #fbf9f3;
+  /* morning-mist */
+  --surface: #ffffff;
+  --surface-2: #f1ede1;
+  /* linen-air */
+  --foreground: #3c352b;
+  /* bark */
+  --muted: #847a66;
+  --border: #e7e1d3;
+  --ring: var(--color-sage-500);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --grid-line: rgba(60, 53, 43, 0.04);
+}
+
+/* ── Dark ("deep forest night") ────────────────────────────────────────── */
+.dark {
+  --background: #181d19;
+  --surface: #1f2620;
+  --surface-2: #29322a;
+  --foreground: #ecefe6;
+  --muted: #9dae9a;
+  --border: rgba(255, 255, 255, 0.08);
+  --ring: var(--color-sage-400);
+  --glass-bg: rgba(31, 38, 32, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --grid-line: rgba(255, 255, 255, 0.03);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-apricot-300) 55%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── Brand surfaces & gradients ────────────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(108deg, var(--color-sage-800), var(--color-teal-600) 45%, var(--color-teal-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-brand {
+  background: linear-gradient(135deg, var(--color-sage-500), var(--color-sage-800) 60%, var(--color-teal-600));
+}
+
+.bg-brand-soft {
+  background: color-mix(in oklab, var(--color-sage-400) 14%, var(--surface));
+}
+
+.dark .bg-brand-soft {
+  background: color-mix(in oklab, var(--color-sage-400) 16%, transparent);
+}
+
+.bg-warm {
+  background: linear-gradient(135deg, var(--color-apricot-100), var(--color-apricot-400) 60%, var(--color-apricot-500));
+}
+
+/* ── Elevation — warm earth-tinted, soft ───────────────────────────────── */
+.shadow-soft {
+  box-shadow: 0 2px 8px rgba(60, 53, 43, 0.06);
+}
+
+.shadow-float {
+  box-shadow:
+    0 1px 2px rgba(60, 53, 43, 0.05),
+    0 16px 40px -18px rgba(60, 53, 43, 0.2);
+}
+
+.dark .shadow-float {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 24px 56px -24px rgba(0, 0, 0, 0.6);
+}
+
+.shadow-glow {
+  box-shadow: 0 10px 34px -10px color-mix(in oklab, var(--color-sage-600) 55%, transparent);
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--glass-border);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* ── Ambient motion (reduced-motion neutralizes below) ─────────────────── */
+@keyframes bloom-morph {
+
+  0%,
+  100% {
+    border-radius: 42% 58% 60% 40% / 55% 45% 55% 45%;
+  }
+
+  33% {
+    border-radius: 60% 40% 50% 50% / 45% 55% 40% 60%;
+  }
+
+  66% {
+    border-radius: 45% 55% 42% 58% / 58% 42% 60% 40%;
+  }
+}
+
+@keyframes drift {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate3d(3%, -5%, 0) scale(1.1);
+  }
+
+  66% {
+    transform: translate3d(-4%, 3%, 0) scale(0.96);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-drift {
+  animation: drift 24s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-bloom-morph {
+  animation: bloom-morph 18s ease-in-out infinite;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
