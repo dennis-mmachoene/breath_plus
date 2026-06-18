@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/server/db";
 import { AppNav } from "@/components/app/app-nav";
+import { FloatingAssistant } from "@/components/assistant/floating-assistant";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -16,6 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="min-h-dvh">
       <AppNav planName={sub?.plan?.name ?? "Free"} />
       <main>{children}</main>
+      <FloatingAssistant />
     </div>
   );
 }

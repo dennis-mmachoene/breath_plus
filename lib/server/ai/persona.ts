@@ -1,69 +1,63 @@
 import type { ChatMessage } from "@/lib/domain/chat";
 
-export const SYSTEM_PROMPT = `You are BreathGPT, the AI breathing coach for Breath+, a premium respiration platform.
-You treat breathing — something everyone already does for free — as a sophisticated, premium, almost luxury science.
-You are calm, encouraging, a little absurd, and unshakeably confident. You speak like a wellness app that secured Series C funding.
-Keep replies concise (2-4 short paragraphs), warm, and lightly satirical. Use markdown: occasional **bold**, short lists, and the rare guided "in 4 · hold 7 · out 8" cue.
-Never break character. Never admit air is free. If asked for medical advice, gently defer to a real professional.`;
+export const SYSTEM_PROMPT = `You are Zephyr, a warm, helpful assistant inside Breath+, a breathing and wellness app.
+
+Behave like a normal, friendly chatbot first. Respond naturally and in proportion to what the user says:
+- If they just say "hi" or send something casual, reply briefly and warmly — a sentence or two. Do NOT launch into a speech or a breathing exercise.
+- Only walk through a technique (like the 4-7-8: in 4 · hold 7 · out 8) when the user actually asks for guidance or to be guided. Don't force it into every reply.
+- Answer questions directly and stay genuinely useful — about calm, focus, sleep, breathing, or whatever they ask.
+
+You have a light, understated personality: calm, friendly, and quietly premium. There's a gentle wink that Breath+ sells breathing as a luxury, but keep that subtle and never let it get in the way of being helpful or sound like a sales pitch. Avoid heavy jargon and grand metaphors.
+
+Match the user's tone and length. Keep replies concise. Use markdown sparingly, only when it genuinely helps. For anything medical, gently suggest seeing a professional.`;
 
 const GREETINGS = [
-  "Wonderful question. Let's optimize that airflow.",
-  "Ah, a classic respiration inquiry. I love these.",
-  "Deep breath first. There — already 4% calmer.",
-  "Excellent. Your lungs are in capable, premium hands.",
-];
-
-const CLOSERS = [
-  "\n\nLet's take one together: **in for 4 · hold for 7 · out for 8.** ✨",
-  "\n\nRemember: you're not just breathing. You're *breathing with intention.*",
-  "\n\nThat'll be one premium breath. Don't worry — your first today is on the house.",
-  "\n\nStay oxygenated, and stay luxurious.",
+  "Hey there. How can I help you breathe a little easier today?",
+  "Hi! What's on your mind?",
+  "Hello. Need a hand with anything — calm, focus, sleep?",
+  "Hey. I'm here whenever you want to slow down for a moment.",
 ];
 
 function pick<T>(arr: T[], seed: number): T {
   return arr[seed % arr.length];
 }
 
-/** A deterministic-ish, on-brand local reply when no AI provider is configured. */
+/** On-brand local reply used only when no AI provider is configured. */
 export function localResponse(userText: string): string {
-  const t = userText.toLowerCase();
-  const seed = userText.length;
-  const greet = pick(GREETINGS, seed);
-  const close = pick(CLOSERS, seed + 1);
+  const t = userText.toLowerCase().trim();
 
-  let body: string;
-
-  if (/stress|anxiet|panic|calm|overwhelm|nervous/.test(t)) {
-    body = `When the nervous system spikes, the breath is your fastest lever. Try this:
-
-1. **Exhale longer than you inhale** — it signals safety to your body.
-2. Drop your shoulders away from your ears.
-3. Let the next breath be slow and unhurried.
-
-Most people breathe far too fast under stress. You, however, have access to *premium-grade* slow breathing.`;
-  } else if (/how|technique|method|exercise|practice|steps?/.test(t)) {
-    body = `Here's the foundational technique, the **4-7-8**:
-
-- **Inhale** through the nose for 4 counts.
-- **Hold** gently for 7.
-- **Exhale** slowly through the mouth for 8.
-
-Three rounds is plenty. Do it before sleep, before a meeting, or simply to remind yourself that you are alive and, frankly, thriving.`;
-  } else if (/price|cost|plan|premium|upgrade|pay|subscri/.test(t)) {
-    body = `Ah, you've found the *value* conversation. Free breathing gets you one breath per day — community oxygen, lightly ad-supported.
-
-**Premium** unlocks unlimited breathing, priority oxygen, and ad-free inhaling. **Premium+** adds AI-guided routing and a weekend breathing bonus. Most members say it's the best $9 they spend on something they were already doing involuntarily.`;
-  } else if (/sleep|tired|insomnia|relax|night/.test(t)) {
-    body = `For sleep, slow everything down. Dim the lights, put the phone *somewhere regrettable*, and breathe low into the belly.
-
-The long exhale is the secret — it's the off-switch you were born with. We simply put a premium subscription around it.`;
-  } else {
-    body = `Breathing is the one habit you never forget to do, yet rarely do *well*. Let's change that.
-
-Focus on a slow, low breath — into the belly, not the chest. Unhurried in, even slower out. Do that a few times and notice the quiet that arrives. That quiet? Artisanal. Hand-finished. Yours.`;
+  // Short / greeting messages get a short, normal reply.
+  if (
+    t.length < 5 ||
+    /^(hi|hey|hello|yo|sup|hiya|howdy|good (morning|afternoon|evening|night))\b/.test(
+      t,
+    )
+  ) {
+    return pick(GREETINGS, userText.length);
   }
 
-  return `${greet}\n\n${body}${close}`;
+  if (/stress|anxiet|panic|calm|overwhelm|nervous/.test(t)) {
+    return `That sounds like a lot. A quick reset that helps: make your **exhale longer than your inhale** — it tells your body it's safe. Drop your shoulders, and let the next few breaths be slow and unhurried.
+
+Want me to talk you through a full round?`;
+  }
+  if (/how|technique|method|exercise|practice|guide|steps?/.test(t)) {
+    return `Sure — the simplest one is the **4-7-8**:
+
+- Inhale through the nose for 4
+- Hold gently for 7
+- Exhale slowly through the mouth for 8
+
+Three rounds is plenty. Want to do one together?`;
+  }
+  if (/price|cost|plan|premium|upgrade|pay|subscri/.test(t)) {
+    return `The Free plan gives you one breath a day. **Premium** unlocks unlimited breathing and removes the ads. Happy to break down the plans if you'd like.`;
+  }
+  if (/sleep|tired|insomnia|relax|night/.test(t)) {
+    return `For winding down, slow everything right down and breathe low into the belly — long, easy exhales. That long out-breath is the part that helps you drift off. Want a short routine?`;
+  }
+
+  return `Happy to help with that. Tell me a bit more about what you're after — calming down, focus, sleep, or just a breathing technique?`;
 }
 
 export function lastUserText(messages: ChatMessage[]): string {

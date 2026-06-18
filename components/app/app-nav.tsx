@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Wind, Sparkles, LogOut } from "lucide-react";
+import { LayoutDashboard, Wind, LogOut } from "lucide-react";
 import { Logo } from "@/components/marketing/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { signOutAction } from "@/app/(auth)/actions";
@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils";
 const LINKS = [
   { href: "/app", label: "Dashboard", icon: LayoutDashboard },
   { href: "/app/breathe", label: "Breathe", icon: Wind },
-  { href: "/app/gpt", label: "BreathGPT", icon: Sparkles },
 ];
 
 export function AppNav({ planName }: { planName: string }) {
@@ -32,9 +31,7 @@ export function AppNav({ planName }: { planName: string }) {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-                    active
-                      ? "bg-brand-soft text-sage-700 dark:text-sage-200"
-                      : "text-muted hover:bg-surface-2 hover:text-foreground",
+                    active ? "bg-brand-soft text-sage-700 dark:text-sage-200" : "text-muted hover:bg-surface-2 hover:text-foreground",
                   )}
                 >
                   <l.icon className="h-4 w-4" />
@@ -72,9 +69,7 @@ export function AppNav({ planName }: { planName: string }) {
               href={l.href}
               className={cn(
                 "flex flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors",
-                active
-                  ? "bg-brand-soft text-sage-700 dark:text-sage-200"
-                  : "text-muted",
+                active ? "bg-brand-soft text-sage-700 dark:text-sage-200" : "text-muted",
               )}
             >
               <l.icon className="h-4 w-4" />
