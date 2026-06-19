@@ -20,13 +20,16 @@ const schema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
-  // Email (Nodemailer SMTP) — optional. If unset, verification links are
-  // printed to the dev console instead of emailed.
+  // Email (Nodemailer SMTP) — optional.
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.string().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
   EMAIL_FROM: z.string().optional(),
+
+  // Stripe billing — optional. If unset, the billing page shows a notice.
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
 
   ADMIN_EMAILS: z.string().default(""),
 });
@@ -53,5 +56,6 @@ export const isGoogleEnabled = Boolean(
   env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET,
 );
 export const isEmailEnabled = Boolean(env.SMTP_HOST);
+export const isBillingEnabled = Boolean(env.STRIPE_SECRET_KEY);
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? env.AUTH_URL ?? "http://localhost:3000";
