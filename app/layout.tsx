@@ -58,9 +58,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-dvh">
+      <body className="min-h-dvh" suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>

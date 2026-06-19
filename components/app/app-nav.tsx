@@ -7,6 +7,7 @@ import {
   Wind,
   Sparkles,
   Settings,
+  ShieldCheck,
   LogOut,
 } from "lucide-react";
 import { Logo } from "@/components/marketing/logo";
@@ -20,8 +21,17 @@ const LINKS = [
   { href: "/app/wrapped", label: "Wrapped", icon: Sparkles },
 ];
 
-export function AppNav({ planName }: { planName: string }) {
+export function AppNav({
+  planName,
+  isAdmin,
+}: {
+  planName: string;
+  isAdmin?: boolean;
+}) {
   const pathname = usePathname();
+  const links = isAdmin
+    ? [...LINKS, { href: "/app/admin", label: "Admin", icon: ShieldCheck }]
+    : LINKS;
   const isActive = (href: string) =>
     href === "/app" ? pathname === "/app" : pathname.startsWith(href);
 
@@ -31,7 +41,7 @@ export function AppNav({ planName }: { planName: string }) {
         <div className="flex items-center gap-6">
           <Logo href="/app" />
           <nav className="hidden items-center gap-1 sm:flex">
-            {LINKS.map((l) => (
+            {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
@@ -80,7 +90,7 @@ export function AppNav({ planName }: { planName: string }) {
 
       {/* mobile nav */}
       <nav className="flex items-center gap-1 border-t border-border px-3 py-2 sm:hidden">
-        {LINKS.map((l) => (
+        {links.map((l) => (
           <Link
             key={l.href}
             href={l.href}

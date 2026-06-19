@@ -15,7 +15,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-dvh">
-      <AppNav planName={sub?.plan?.name ?? "Free"} />
+      <AppNav planName={sub?.plan?.name ?? "Free"} isAdmin={session.user.role === "ADMIN"} />
       <main>{children}</main>
       <FloatingAssistant />
     </div>
